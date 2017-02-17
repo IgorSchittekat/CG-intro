@@ -14,10 +14,11 @@ img::EasyImage ColorRectangle(const unsigned int width, const unsigned int heigh
 	{
 		for (unsigned int y = 0; y < height; y++)
 		{
-			image(x, y).red = (x * 255)/width;
-			image(x, y).green = (y * 255)/height;
-			image(x, y).blue = int((float)(x + y) * (float)255 / width) % 255;
-
+			img::Color c;
+			c.red = (x * 255) / width;
+			c.green = (y * 255) / height;
+			c.blue = int((float)(x + y) * (float)255 / width) % 255;
+			image(x, y) = c;
 		}
 	}
 	return image;
@@ -33,19 +34,27 @@ img::EasyImage Blocks(const unsigned int width, const unsigned int height, const
 	{
 		for (unsigned int y = 0; y < height; y++)
 		{
+			img::Color c1;
+			c1.red = cWhite[0] * 255;
+			c1.green = cWhite[1] * 255;
+			c1.blue = cWhite[2] * 255;
+
+			img::Color c2;
+			c2.red = cBlack[0] * 255;
+			c2.green = cBlack[1] * 255;
+			c2.blue = cBlack[2] * 255;
+
 			int blockX = x / widthBlock;
 			int blockY = y / heightBlock;
 			if ((blockX + blockY) % 2 == 0)
 			{
-				image(x, y).red = cWhite[0] * 255;
-				image(x, y).green = cWhite[1] * 255;
-				image(x, y).blue = cWhite[2] * 255;
+				if (!invC) image(x, y) = c1;
+				else image(x, y) = c2;
 			}
 			else
 			{
-				image(x, y).red = cBlack[0] * 255;
-				image(x, y).green = cBlack[1] * 255;
-				image(x, y).blue = cBlack[2] * 255;
+				if (!invC) image(x, y) = c2;
+				else image(x, y) = c1;
 			}
 		}
 	}
